@@ -43,12 +43,12 @@ A **Model Context Protocol (MCP)** server that autonomously scans an undocumente
 
 ## Features
 
-- **Autonomous Schema Discovery** — Scans any SQLite database using PRAGMA introspection with zero prior knowledge
-- **Dynamic CRUD Tools** — Auto-generates Create, Read, Update, Delete, List, and Search tools for every discovered table
-- **Join Prompts** — Analyzes foreign key relationships and generates prompts explaining how to join tables
-- **Zero-Knowledge Security** — All SQL execution is restricted to pre-validated parameterized templates
-- **Audit Logging** — Every database operation is logged with timestamp, template ID, and parameters
-- **Schema Resources** — MCP resources expose the discovered schema for LLM reference
+- **Autonomous Schema Discovery** - Scans any SQLite database using PRAGMA introspection with zero prior knowledge
+- **Dynamic CRUD Tools** - Auto-generates Create, Read, Update, Delete, List, and Search tools for every discovered table
+- **Join Prompts** - Analyzes foreign key relationships and generates prompts explaining how to join tables
+- **Zero-Knowledge Security** - All SQL execution is restricted to pre-validated parameterized templates
+- **Audit Logging** - Every database operation is logged with timestamp, template ID, and parameters
+- **Schema Resources** - MCP resources expose the discovered schema for LLM reference
 
 ## Quick Start
 
