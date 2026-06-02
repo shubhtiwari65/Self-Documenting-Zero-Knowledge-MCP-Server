@@ -108,6 +108,90 @@ The audit log is exposed as an MCP resource (`security://audit-log`) so the LLM 
 | Privilege Escalation | No admin/system operations exposed |
 | Audit Evasion | All operations logged before execution |
 
+### How Zero-Knowledge Enforcement Works (Code-Level)
+
+The critical security guarantee is that **there is no code path in the entire system** where raw SQL can be executed. Here's how the enforcement is layered:
+
+**1. Single entry point for all database access:**
+
+The `ZeroKnowledgeValidator.validate_and_execute()` method in `src/security.py` is the **only** function in the entire codebase that calls `conn.execute()` with application SQL. There is no alternative execution path.
+
+```python
+# src/security.py — the ONLY place SQL runs
+def validate_and_execute(self, template_id: str, params: dict) -> list[dict]:
+    template = self.template_registry.get(template_id)  # Step 1: lookup
+    if not template:
+        raise SecurityError(...)  # REJECT unknown templates
+    self._validate_params(params, template)              # Step 2: type-check
+    self._sanitize_params(params)                        # Step 3: blocklist
+    ordered_params = self._build_ordered_params(...)     # Step 4: order
+    cursor = conn.execute(template.sql, ordered_params)  # Step 5: execute
+```
+
+**2. No raw SQL accepted anywhere:**
+
+- The MCP tools (`src/crud_generator.py`) only pass `template_id` strings and `params` dicts to the validator — they never construct SQL.
+- The template registry (`src/sql_templates.py`) is populated once at startup and is immutable at runtime.
+- The `conn.execute()` call inside `_get_connection()` only runs `PRAGMA foreign_keys = ON` — a fixed, hardcoded safety setting, not user-supplied SQL.
+
+**3. Five-layer validation before any query runs:**
+
+| Layer | Check | Blocks |
+|:------|:------|:-------|
+| Template lookup | Is `template_id` in the registry? | Any arbitrary/unknown query |
+| Param presence | Are all required params provided? | Missing fields |
+| Param restriction | Are there any extra params? | Parameter injection |
+| Type validation | Does each param match expected SQLite type? | Type confusion attacks |
+| Pattern blocklist | Do string params contain `DROP`, `UNION SELECT`, `--`, etc.? | Defense-in-depth |
+
+**4. Why this qualifies as "Zero-Knowledge":**
+
+The LLM has **zero knowledge** of the underlying SQL. It only sees:
+- Tool names like `list_customers`, `read_orders`
+- Parameter names like `id`, `limit`, `offset`
+- Structured results as JSON
+
+It never sees, generates, or has the ability to influence the SQL string itself. The SQL exists only inside the pre-compiled template registry.
+
+## Why FastMCP Over Raw MCP SDK
+
+| Feature | FastMCP | Raw JSON-RPC |
+|:--------|:--------|:-------------|
+| Tool registration | `@mcp.tool()` decorator | Manual JSON schema + handler mapping |
+| Transport handling | Built-in stdio/SSE | Implement from scratch |
+| Prompt support | `@mcp.prompt()` decorator | Manual prompt protocol |
+| Type inference | Automatic from Python signatures | Manual JSON Schema |
+| Inspector integration | `mcp dev server.py` | Not available |
+| Lines of boilerplate | ~5 lines | ~200+ lines |
+
+FastMCP is the official recommendation from the MCP specification and reduces boilerplate by 95%, letting us focus on the core logic (introspection, security, CRUD generation) rather than protocol plumbing.
+
+## Why SQLite PRAGMA for Introspection
+
+| Approach | Pros | Cons |
+|:---------|:-----|:-----|
+| **PRAGMA (chosen)** | Zero dependencies, native to SQLite, truly "zero-knowledge" | SQLite-specific |
+| SQLAlchemy automap | Database-agnostic | Heavy ORM dependency, not truly "zero-knowledge" |
+| Manual SQL queries | Simple | Fragile, error-prone |
+
+PRAGMAs give us everything needed with zero external dependencies:
+- `SELECT name FROM sqlite_master WHERE type='table'` — discover tables
+- `PRAGMA table_info(X)` — columns, types, PKs, nullability, defaults
+- `PRAGMA foreign_key_list(X)` — foreign key relationships
+- `PRAGMA index_list(X)` + `PRAGMA index_info(X)` — indexes
+
+This aligns with the "zero-knowledge" philosophy: the server starts knowing nothing and discovers everything at runtime.
+
+## Design Tradeoffs
+
+| Decision | Tradeoff | Rationale |
+|:---------|:---------|:----------|
+| SQLite only | Not production-DB ready | Portable, zero-config, perfect for assessment demo |
+| In-memory audit log | Lost on restart | Keeps dependencies minimal; production would use persistent storage |
+| All columns in UPDATE | Must pass all fields | Simpler template generation; partial updates would double template count |
+| Max 100 rows per LIST | Can't bulk export | Security: prevents data exfiltration via large queries |
+| Immutable templates | No runtime schema changes | Security: templates can't be modified after startup |
+
 ## Testing Strategy
 
 Four test suites cover the critical paths:
@@ -125,3 +209,4 @@ The architecture supports several extensions:
 - **Row-level security**: Add user context to the validator for per-user access control
 - **Caching**: Add a query cache layer between the validator and database
 - **Webhooks**: Emit events on write operations for downstream processing
+

@@ -47,8 +47,11 @@ logging.basicConfig(
 logger = logging.getLogger("zk-mcp-server")
 
 
-# ── Default paths ──
-DEFAULT_DB_PATH = os.path.join(os.path.dirname(__file__), "legacy_store.db")
+# ── Default paths (supports DATABASE_PATH env variable) ──
+DEFAULT_DB_PATH = os.environ.get(
+    "DATABASE_PATH",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "legacy_store.db"),
+)
 
 
 def parse_args():
@@ -58,7 +61,7 @@ def parse_args():
     )
     parser.add_argument(
         "--db", default=DEFAULT_DB_PATH,
-        help=f"Path to the SQLite database (default: {DEFAULT_DB_PATH})"
+        help=f"Path to the SQLite database (default: DATABASE_PATH env or {DEFAULT_DB_PATH})"
     )
     parser.add_argument(
         "--transport", choices=["stdio", "sse"], default="stdio",
@@ -202,18 +205,16 @@ def _register_resources(
 
 
 # ── Main ──
-args = parse_args()
-
-# Seed if requested
-if args.seed:
-    logger.info("Seeding demo legacy database...")
-    seed_database(args.db)
-
-# Build and store the server
-mcp = build_server(args.db)
-
 if __name__ == "__main__":
-    # Run the server
+    args = parse_args()
+
+    # Seed if requested
+    if args.seed:
+        logger.info("Seeding demo legacy database...")
+        seed_database(args.db)
+
+    # Build and run the server
+    mcp = build_server(args.db)
     if args.transport == "sse":
         mcp.run(transport="sse", port=args.port)
     else:

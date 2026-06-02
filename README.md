@@ -130,6 +130,7 @@ python -m pytest tests/test_introspector.py -v
 
 ```
 MCP SERVER/
+├── .gitignore                   # Git ignore rules
 ├── server.py                    # Main MCP server entry point
 ├── requirements.txt             # Python dependencies
 ├── pyproject.toml               # Project metadata
@@ -144,12 +145,14 @@ MCP SERVER/
 ├── sample_data/
 │   └── seed_legacy_db.py        # Demo legacy database seeder
 ├── tests/
+│   ├── demo_client.py           # Standalone verification demo
 │   ├── test_introspector.py     # Schema discovery tests
 │   ├── test_crud.py             # CRUD operation tests
 │   ├── test_security.py         # Security validation tests
 │   └── test_joins.py            # Join analysis tests
 └── docs/
-    └── APPROACH.md              # Technical approach documentation
+    ├── APPROACH.md              # Technical approach documentation
+    └── MCP_architecture.png     # Architecture diagram
 ```
 
 ## License
