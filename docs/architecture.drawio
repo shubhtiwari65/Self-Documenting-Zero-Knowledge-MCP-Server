@@ -1,0 +1,61 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="RBD1ii3o-cH_j_psmw5J" name="Page-1">
+    <mxGraphModel dx="968" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=13;arcSize=8;verticalAlign=middle;" value="&lt;b&gt;MCP Client (LLM)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;&quot;&gt;Claude / Cursor / Any MCP Client&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="400" x="300" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" edge="1" parent="1" source="2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=11;fontStyle=1;" target="4" value="MCP Protocol (stdio / SSE)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;arcSize=4;verticalAlign=top;align=center;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="480" width="600" x="200" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="4b" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;fontColor=#333333;fontStyle=1;" value="&lt;b&gt;MCP Server (FastMCP)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="220" x="390" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;arcSize=10;" value="&lt;b&gt;CRUD Tools&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(per table)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="140" x="230" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;arcSize=10;" value="&lt;b&gt;Join Prompts&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(per FK rel)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="140" x="430" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;arcSize=10;" value="&lt;b&gt;Resources&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(schema info)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="140" x="630" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="8" edge="1" parent="1" source="5" style="edgeStyle=orthogonalEdgeStyle;" target="9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9a" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;" target="9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9b" edge="1" parent="1" source="7" style="edgeStyle=orthogonalEdgeStyle;" target="9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=12;arcSize=6;align=left;" value="&lt;blockquote style=&quot;margin: 0px 0px 0px 40px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; padding: 0px;&quot;&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Zero-Knowledge Security Validator&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;• Template - only execution&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; • Audit logging&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;• Parameter type-checking&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;• Input sanitization&lt;/font&gt;&lt;/blockquote&gt;" vertex="1">
+          <mxGeometry height="70" width="500" x="250" y="344" as="geometry" />
+        </mxCell>
+        <mxCell id="10a" edge="1" parent="1" source="9" style="edgeStyle=orthogonalEdgeStyle;" target="10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;arcSize=6;" value="&lt;b&gt;Pre-Validated SQL Template Registry&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;Generated at startup from introspected schema&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="500" x="250" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="11a" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;" target="11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;arcSize=6;" value="&lt;b&gt;Database Introspector&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;PRAGMA-based zero-knowledge schema discovery&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="500" x="250" y="578" as="geometry" />
+        </mxCell>
+        <mxCell id="12" edge="1" parent="1" source="11" style="edgeStyle=orthogonalEdgeStyle;" target="13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;direction=south;" value="&lt;b&gt;Legacy SQLite Database&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;(No prior knowledge)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="250" x="375" y="700" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
