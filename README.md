@@ -135,9 +135,6 @@ python -m pytest tests/test_introspector.py -v
 
 ```
 MCP SERVER/
-├── .github/
-│   └── workflows/
-│       └── ci.yml               # GitHub Actions CI pipeline
 ├── .gitignore                   # Git ignore rules
 ├── .env.example                 # Environment variable template
 ├── CHANGELOG.md                 # Version history
