@@ -3,43 +3,8 @@
 A **Model Context Protocol (MCP)** server that autonomously scans an undocumented legacy database, generates CRUD tools for every table, creates prompts explaining how to join tables, and enforces **Zero-Knowledge security** by restricting the LLM to pre-validated SQL templates only.
 
 ## Architecture
+![Architecture Diagram](docs/MCP_architecture.png)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    MCP Client (LLM)                     │
-│              Claude / Cursor / Any MCP Client           │
-└──────────────────────┬──────────────────────────────────┘
-                       │ MCP Protocol (stdio / SSE)
-┌──────────────────────▼──────────────────────────────────┐
-│                   MCP Server (FastMCP)                   │
-│                                                          │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │
-│  │  CRUD Tools  │  │ Join Prompts │  │   Resources   │  │
-│  │  (per table) │  │ (per FK rel) │  │ (schema info) │  │
-│  └──────┬───────┘  └──────┬───────┘  └───────┬───────┘  │
-│         │                 │                   │          │
-│  ┌──────▼─────────────────▼───────────────────▼───────┐  │
-│  │          Zero-Knowledge Security Validator          │  │
-│  │  • Template-only execution   • Audit logging       │  │
-│  │  • Parameter type-checking   • Input sanitization  │  │
-│  └──────────────────────┬─────────────────────────────┘  │
-│                         │                                │
-│  ┌──────────────────────▼─────────────────────────────┐  │
-│  │           Pre-Validated SQL Template Registry       │  │
-│  │  Generated at startup from introspected schema      │  │
-│  └──────────────────────┬─────────────────────────────┘  │
-│                         │                                │
-│  ┌──────────────────────▼─────────────────────────────┐  │
-│  │              Database Introspector                  │  │
-│  │  PRAGMA-based zero-knowledge schema discovery       │  │
-│  └──────────────────────┬─────────────────────────────┘  │
-└──────────────────────────┼──────────────────────────────┘
-                           │
-              ┌────────────▼────────────┐
-              │   Legacy SQLite Database │
-              │   (No prior knowledge)   │
-              └─────────────────────────┘
-```
 
 ## Features
 
