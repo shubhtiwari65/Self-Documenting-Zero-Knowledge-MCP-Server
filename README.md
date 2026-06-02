@@ -135,7 +135,15 @@ python -m pytest tests/test_introspector.py -v
 
 ```
 MCP SERVER/
+├── .github/
+│   └── workflows/
+│       └── ci.yml               # GitHub Actions CI pipeline
 ├── .gitignore                   # Git ignore rules
+├── .env.example                 # Environment variable template
+├── CHANGELOG.md                 # Version history
+├── Makefile                     # Developer convenience commands
+├── README.md                    # Project documentation
+├── SECURITY.md                  # Security model documentation
 ├── server.py                    # Main MCP server entry point
 ├── requirements.txt             # Python dependencies
 ├── pyproject.toml               # Project metadata
