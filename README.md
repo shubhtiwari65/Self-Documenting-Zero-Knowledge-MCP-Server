@@ -1,5 +1,10 @@
 # Self-Documenting Zero-Knowledge MCP Server
 
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![FastMCP](https://img.shields.io/badge/MCP-FastMCP-green.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Security](https://img.shields.io/badge/security-Zero--Knowledge-red.svg)
+
 A **Model Context Protocol (MCP)** server that autonomously scans an undocumented legacy database, generates CRUD tools for every table, creates prompts explaining how to join tables, and enforces **Zero-Knowledge security** by restricting the LLM to pre-validated SQL templates only.
 
 ## Architecture
